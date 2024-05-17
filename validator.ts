@@ -114,7 +114,7 @@ const AccordionItem = object({
 });
 const BuilderItem = object({
 	type: literal("builder"),
-	items: array(record(string(), any())).default([]),
+	items: array(record(string(), any())),
 	...itemCommonOptions,
 });
 const KeyValueItem = object({
