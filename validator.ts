@@ -11,6 +11,7 @@ import {
 	string,
 	union,
 	unknown,
+	any,
 	enum as zodEnum,
 	type inferFormattedError,
 } from "zod";
@@ -52,7 +53,7 @@ const SelectItem = object({
 			label: record(string()),
 			value: union([string(), number()]),
 		}),
-	),
+	).or(string()),
 });
 const CodeItem = object({
 	type: literal("code"),
@@ -111,7 +112,11 @@ const AccordionItem = object({
 		}),
 	),
 });
-
+const BuilderItem = object({
+	type: literal("builder"),
+	items: array(record(string(), any())).default([]),
+	...itemCommonOptions,
+});
 const KeyValueItem = object({
 	type: literal("key-value"),
 	key: SimpleItem,
@@ -129,6 +134,7 @@ const Item = discriminatedUnion("type", [
 	RangeItem,
 	ButtongroupItem,
 	RelationItem,
+	BuilderItem,
 	AccordionItem,
 ]);
 export type ItemOutput = output<typeof Item>;
