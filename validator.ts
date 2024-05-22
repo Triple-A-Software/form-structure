@@ -141,6 +141,7 @@ const Item = discriminatedUnion("type", [
 	RelationItem,
 	BuilderItem,
 	AccordionItem,
+	RichTextItem,
 ]);
 export type ItemOutput = output<typeof Item>;
 
