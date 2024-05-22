@@ -24,6 +24,10 @@ const itemCommonOptions = {
 	id: string(),
 };
 
+const RichTextItem = object({
+	type: literal("richtext"),
+	...itemCommonOptions,
+});
 const TextareaItem = object({
 	type: literal("textarea"),
 	...itemCommonOptions,
@@ -95,6 +99,7 @@ const SimpleItem = discriminatedUnion("type", [
 	RangeItem,
 	ButtongroupItem,
 	RelationItem,
+	RichTextItem,
 ]);
 
 export type SimpleItemOutput = output<typeof SimpleItem>;
