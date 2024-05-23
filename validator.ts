@@ -88,8 +88,14 @@ const RelationItem = object({
 	relationName: zodEnum(["page", "user", "file"]),
 	multiple: optional(boolean()),
 });
+const PluginDataItem = object({
+	type: literal("pluginData"),
+	...itemCommonOptions,
+	pluginId: string(),
+	filterByKey: string().optional(),
+});
 
-const SimpleItem = discriminatedUnion("type", [
+const simpleItems = [
 	TextareaItem,
 	TextItem,
 	NumberItem,
@@ -100,7 +106,9 @@ const SimpleItem = discriminatedUnion("type", [
 	ButtongroupItem,
 	RelationItem,
 	RichTextItem,
-]);
+	PluginDataItem,
+] as const;
+const SimpleItem = discriminatedUnion("type", [...simpleItems]);
 
 export type SimpleItemOutput = output<typeof SimpleItem>;
 
@@ -129,19 +137,10 @@ const KeyValueItem = object({
 	...itemCommonOptions,
 });
 const Item = discriminatedUnion("type", [
+	...simpleItems,
 	KeyValueItem,
-	TextareaItem,
-	TextItem,
-	NumberItem,
-	CheckboxItem,
-	SelectItem,
-	CodeItem,
-	RangeItem,
-	ButtongroupItem,
-	RelationItem,
 	BuilderItem,
 	AccordionItem,
-	RichTextItem,
 ]);
 export type ItemOutput = output<typeof Item>;
 
