@@ -93,6 +93,8 @@ const PluginDataItem = object({
 	...itemCommonOptions,
 	pluginId: string(),
 	filterByKey: string().optional(),
+	labelKey: string(),
+	valueKey: string(),
 });
 
 const simpleItems = [
