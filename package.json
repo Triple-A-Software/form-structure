@@ -1,6 +1,6 @@
 {
 	"name": "@aaa-soft/form-structure",
-	"version": "0.1.0-alpha.7",
+	"version": "0.1.0-alpha.8",
 	"module": "index.ts",
 	"type": "module",
 	"devDependencies": {
