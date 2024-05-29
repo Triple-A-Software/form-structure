@@ -130,6 +130,7 @@ const AccordionItem = object({
 const BuilderItem = object({
 	type: literal("builder"),
 	items: array(record(string(), any())),
+	previewTemplate: string().optional(),
 	...itemCommonOptions,
 });
 const KeyValueItem = object({
