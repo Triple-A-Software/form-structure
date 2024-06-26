@@ -85,7 +85,7 @@ const ButtongroupItem = object({
 const RelationItem = object({
 	type: literal("relation"),
 	...itemCommonOptions,
-	relationName: zodEnum(["page", "user", "file"]),
+	relationName: zodEnum(["page", "user", "file", "post", "tag"]),
 	multiple: optional(boolean()),
 });
 const PluginDataItem = object({
