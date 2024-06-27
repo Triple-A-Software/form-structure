@@ -88,6 +88,11 @@ const RelationItem = object({
 	relationName: zodEnum(["page", "user", "file", "post", "tag"]),
 	multiple: optional(boolean()),
 });
+const RelationRulesItem = object({
+	type: literal("relationRules"),
+	...itemCommonOptions,
+	relationName: zodEnum(["page", "user", "file", "post", "tag"]),
+});
 const PluginDataItem = object({
 	type: literal("pluginData"),
 	...itemCommonOptions,
@@ -107,6 +112,7 @@ const simpleItems = [
 	RangeItem,
 	ButtongroupItem,
 	RelationItem,
+	RelationRulesItem,
 	RichTextItem,
 	PluginDataItem,
 ] as const;
