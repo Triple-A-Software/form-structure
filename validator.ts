@@ -28,6 +28,10 @@ const RichTextItem = object({
 	type: literal("richtext"),
 	...itemCommonOptions,
 });
+const MarkdownItem = object({
+	type: literal("markdown"),
+	...itemCommonOptions,
+});
 const TextareaItem = object({
 	type: literal("textarea"),
 	...itemCommonOptions,
@@ -114,6 +118,7 @@ const simpleItems = [
 	RelationItem,
 	RelationRulesItem,
 	RichTextItem,
+	MarkdownItem,
 	PluginDataItem,
 ] as const;
 const SimpleItem = discriminatedUnion("type", [...simpleItems]);
