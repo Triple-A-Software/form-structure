@@ -144,6 +144,9 @@ const BuilderItem = object({
 		object({
 			icon: string().optional(),
 			name: string(),
+			props: array(SimpleItem), // Maybe we want to support all items here in the future?
+			data: record(any()),
+			label: record(string()),
 		}).passthrough(),
 	),
 	previewTemplate: string().optional(),
