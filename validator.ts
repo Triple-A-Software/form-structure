@@ -140,7 +140,12 @@ const AccordionItem = object({
 });
 const BuilderItem = object({
 	type: literal("builder"),
-	items: array(record(string(), any())),
+	items: array(
+		object({
+			icon: string().optional(),
+			name: string(),
+		}).passthrough(),
+	),
 	previewTemplate: string().optional(),
 	...itemCommonOptions,
 });
