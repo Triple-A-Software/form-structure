@@ -40,6 +40,10 @@ const TextItem = object({
 	type: literal("text"),
 	...itemCommonOptions,
 });
+const PasswordItem = object({
+	type: literal("password"),
+	...itemCommonOptions,
+});
 const NumberItem = object({
 	type: literal("number"),
 	...itemCommonOptions,
@@ -109,6 +113,7 @@ const PluginDataItem = object({
 const simpleItems = [
 	TextareaItem,
 	TextItem,
+	PasswordItem,
 	NumberItem,
 	CheckboxItem,
 	SelectItem,
