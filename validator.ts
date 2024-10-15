@@ -93,6 +93,7 @@ const ButtongroupItem = object({
 const RelationItem = object({
 	type: literal("relation"),
 	...itemCommonOptions,
+	mimeTypes: array(string()).optional(),
 	relationName: zodEnum(["page", "user", "file", "post", "tag"]),
 	multiple: optional(boolean()),
 });
