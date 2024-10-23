@@ -94,13 +94,13 @@ const RelationItem = object({
 	type: literal("relation"),
 	...itemCommonOptions,
 	mimeTypes: array(string()).optional(),
-	relationName: zodEnum(["page", "user", "file", "post", "tag"]),
+	relationName: zodEnum(["page", "user", "file", "post", "tag" , "event"]),
 	multiple: optional(boolean()),
 });
 const RelationRulesItem = object({
 	type: literal("relationRules"),
 	...itemCommonOptions,
-	relationName: zodEnum(["page", "user", "file", "post", "tag"]),
+	relationName: zodEnum(["page", "user", "file", "post", "tag" , "event"]),
 });
 const PluginDataItem = object({
 	type: literal("pluginData"),
