@@ -20,42 +20,42 @@ const itemCommonOptions = {
 	description: optional(string()),
 	label: record(string()),
 	defaultValue: optional(unknown()),
-	hint: optional(string()),
+	hint: optional(record(string())),
 	id: string(),
 };
 
-const RichTextItem = object({
+const RichText = object({
 	type: literal("richtext"),
 	...itemCommonOptions,
 });
-const MarkdownItem = object({
+const Markdown = object({
 	type: literal("markdown"),
 	...itemCommonOptions,
 });
-const TextareaItem = object({
+const Textarea = object({
 	type: literal("textarea"),
 	...itemCommonOptions,
 });
-const TextItem = object({
+const Text = object({
 	type: literal("text"),
 	...itemCommonOptions,
 });
-const PasswordItem = object({
+const PasswordInput = object({
 	type: literal("password"),
 	...itemCommonOptions,
 });
-const NumberItem = object({
+const NumberInput = object({
 	type: literal("number"),
 	...itemCommonOptions,
 	min: optional(number()),
 	max: optional(number()),
 	step: optional(number()),
 });
-const CheckboxItem = object({
+const Checkbox = object({
 	type: literal("checkbox"),
 	...itemCommonOptions,
 });
-const SelectItem = object({
+const Select = object({
 	type: literal("select"),
 	multiple: boolean().optional(),
 	dataType: zodEnum(["string", "number"]),
@@ -67,20 +67,20 @@ const SelectItem = object({
 		}),
 	).or(string()),
 });
-const CodeItem = object({
+const Code = object({
 	type: literal("code"),
 	...itemCommonOptions,
 
 	language: zodEnum(["js", "css", "html", "json"]),
 });
-const RangeItem = object({
+const Range = object({
 	type: literal("range"),
 	...itemCommonOptions,
 	min: number(),
 	max: number(),
 	step: optional(number()),
 });
-const ButtongroupItem = object({
+const Buttongroup = object({
 	type: literal("buttongroup"),
 	...itemCommonOptions,
 	options: array(
@@ -90,19 +90,19 @@ const ButtongroupItem = object({
 		}),
 	),
 });
-const RelationItem = object({
+const Relation = object({
 	type: literal("relation"),
 	...itemCommonOptions,
 	mimeTypes: array(string()).optional(),
-	relationName: zodEnum(["page", "user", "file", "post", "tag" , "event"]),
+	relationName: zodEnum(["page", "user", "file", "post", "tag", "event"]),
 	multiple: optional(boolean()),
 });
-const RelationRulesItem = object({
+const RelationRules = object({
 	type: literal("relationRules"),
 	...itemCommonOptions,
-	relationName: zodEnum(["page", "user", "file", "post", "tag" , "event"]),
+	relationName: zodEnum(["page", "user", "file", "post", "tag", "event"]),
 });
-const PluginDataItem = object({
+const PluginData = object({
 	type: literal("pluginData"),
 	...itemCommonOptions,
 	pluginId: string(),
@@ -111,71 +111,69 @@ const PluginDataItem = object({
 	valueKey: string(),
 });
 
-const simpleItems = [
-	TextareaItem,
-	TextItem,
-	PasswordItem,
-	NumberItem,
-	CheckboxItem,
-	SelectItem,
-	CodeItem,
-	RangeItem,
-	ButtongroupItem,
-	RelationItem,
-	RelationRulesItem,
-	RichTextItem,
-	MarkdownItem,
-	PluginDataItem,
+const simpleInputs = [
+	Textarea,
+	Text,
+	PasswordInput,
+	NumberInput,
+	Checkbox,
+	Select,
+	Code,
+	Range,
+	Buttongroup,
+	Relation,
+	RelationRules,
+	RichText,
+	Markdown,
+	PluginData,
 ] as const;
-const SimpleItem = discriminatedUnion("type", [...simpleItems]);
+const SimpleInput = discriminatedUnion("type", [...simpleInputs]);
 
-export type SimpleItemOutput = output<typeof SimpleItem>;
+export type SimpleItemOutput = output<typeof SimpleInput>;
 
 const AccordionItem = object({
+	label: record(string()),
+	icon: string().optional(),
+	id: string(),
+	description: record(string()),
+	properties: array(SimpleInput),
+});
+const Accordion = object({
 	type: literal("accordion"),
 	...itemCommonOptions,
-	items: array(
-		object({
-			label: record(string()),
-			icon: string().optional(),
-			id: string(),
-			description: record(string()),
-			properties: array(SimpleItem),
-		}),
-	),
+	items: array(AccordionItem),
 });
-const BuilderItem = object({
+export const BuilderItem = object({
+	icon: string().optional(),
+	name: string(),
+	props: array(SimpleInput), // Maybe we want to support all items here in the future?
+	data: record(any()),
+	label: record(string()),
+}).passthrough();
+export const Builder = object({
 	type: literal("builder"),
-	items: array(
-		object({
-			icon: string().optional(),
-			name: string(),
-			props: array(SimpleItem), // Maybe we want to support all items here in the future?
-			data: record(any()),
-			label: record(string()),
-		}).passthrough(),
-	),
+	items: array(BuilderItem),
 	previewTemplate: string().optional(),
 	...itemCommonOptions,
 });
-const KeyValueItem = object({
+const KeyValue = object({
 	type: literal("key-value"),
-	key: SimpleItem,
-	value: SimpleItem,
+	key: SimpleInput,
+	value: SimpleInput,
 	...itemCommonOptions,
 });
-const Item = discriminatedUnion("type", [
-	...simpleItems,
-	KeyValueItem,
-	BuilderItem,
-	AccordionItem,
+const Input = discriminatedUnion("type", [
+	...simpleInputs,
+	KeyValue,
+	Builder,
+	Accordion,
 ]);
-export type ItemOutput = output<typeof Item>;
+export type ItemOutput = output<typeof Input>;
 
 export const Schema = object({
 	title: optional(string()),
 	required: optional(array(string())),
-	properties: array(Item),
+	properties: array(Input),
 	description: optional(string()),
 	showDataKey: optional(string()),
 	label: record(string()),
